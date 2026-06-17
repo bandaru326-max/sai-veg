@@ -1,0 +1,16 @@
+{
+  "name": "sai-bazaar",
+  "version": "1.0.0",
+  "description": "Sai Bazaar - Farm Fresh Indian Vegetable Store",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx http-server -p 8085"
+  },
+  "keywords": [
+    "vegetable",
+    "e-commerce",
+    "organic"
+  ],
+  "author": "Sai Bazaar",
+  "license": "ISC"
+}
