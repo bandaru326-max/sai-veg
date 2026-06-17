@@ -548,7 +548,22 @@ function showToast(message, type = "success") {
   }, 3000);
 }
 
-// Auto update badge on page load
+// Auto update badge and handle owner authentication features on page load
 document.addEventListener("DOMContentLoaded", () => {
   updateCartBadge();
+
+  // Render Admin Link if already authenticated
+  const adminNavLink = document.getElementById("adminNavLink");
+  if (adminNavLink && sessionStorage.getItem("sb_admin_logged_in") === "true") {
+    adminNavLink.style.display = "block";
+  }
+
+  // Hook double-click on owner circle logo to jump to admin page
+  const logoOwner = document.querySelector(".logo-owner-frame");
+  if (logoOwner) {
+    logoOwner.title = "Double click to manage website";
+    logoOwner.addEventListener("dblclick", () => {
+      window.location.href = "admin.html";
+    });
+  }
 });

@@ -4,11 +4,58 @@
  */
 
 document.addEventListener("DOMContentLoaded", () => {
-  renderDashboard();
+  checkAdminAuthentication();
   setupAddProductForm();
   setupResetButton();
+  setupLogoutButton();
   setupMobileNavToggle();
 });
+
+function checkAdminAuthentication() {
+  const loginPanel = document.getElementById("adminLoginPanel");
+  const mainContent = document.getElementById("adminMainContent");
+  const logoutBtn = document.getElementById("logoutBtn");
+
+  if (sessionStorage.getItem("sb_admin_logged_in") === "true") {
+    if (loginPanel) loginPanel.style.display = "none";
+    if (mainContent) mainContent.style.display = "block";
+    if (logoutBtn) logoutBtn.style.display = "inline-flex";
+    renderDashboard();
+  } else {
+    if (loginPanel) loginPanel.style.display = "block";
+    if (mainContent) mainContent.style.display = "none";
+    if (logoutBtn) logoutBtn.style.display = "none";
+  }
+}
+
+window.handleAdminLogin = function(e) {
+  e.preventDefault();
+  const pass = document.getElementById("adminPass").value;
+  
+  if (pass === "sai326") {
+    sessionStorage.setItem("sb_admin_logged_in", "true");
+    showToast("Dashboard unlocked successfully!");
+    
+    const adminNavLink = document.getElementById("adminNavLink");
+    if (adminNavLink) adminNavLink.style.display = "block";
+    
+    checkAdminAuthentication();
+  } else {
+    showToast("Incorrect password. Please try again.", "error");
+  }
+};
+
+function setupLogoutButton() {
+  const btn = document.getElementById("logoutBtn");
+  if (!btn) return;
+  btn.addEventListener("click", () => {
+    sessionStorage.removeItem("sb_admin_logged_in");
+    showToast("Logged out successfully.", "error");
+    setTimeout(() => {
+      window.location.href = "index.html";
+    }, 500);
+  });
+}
 
 // Mobile menu toggle
 function setupMobileNavToggle() {
